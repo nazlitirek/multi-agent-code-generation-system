@@ -46,3 +46,18 @@ async def architect_generate(req: ArchitectRequest):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+from agents.api_contract import generate_api_contract
+
+class ApiContractRequest(BaseModel):
+    architecture: dict
+
+@app.post("/api-contract/generate")
+async def api_contract_generate(req: ApiContractRequest):
+    try:
+        result = generate_api_contract(req.architecture)
+        return result
+    except Exception as e:
+        print("ERROR:", traceback.format_exc())
+        return JSONResponse(status_code=500, content={"error": str(e)})
