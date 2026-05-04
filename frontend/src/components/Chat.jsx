@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8000'
 
-export default function Chat() {
+export default function Chat({ onBriefConfirmed }) {
   const [messages, setMessages] = useState([
     { role: 'assistant', content: "Hi! I'm your project planning assistant. What would you like to build?" }
   ])
@@ -59,7 +59,7 @@ export default function Chat() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      
+
       {/* Header */}
       <div style={{ marginBottom: '20px' }}>
         <h2 style={{ margin: 0 }}>🧠 Project Planner</h2>
@@ -99,7 +99,7 @@ export default function Chat() {
           <p style={{ margin: '0 0 12px', fontWeight: 'bold', color: '#276749' }}>✅ Project Brief Confirmed!</p>
           <pre style={{ margin: '0 0 12px', fontSize: '13px', whiteSpace: 'pre-wrap', color: '#2d3748' }}>{brief}</pre>
           <button
-            onClick={() => alert('Moving to next phase... (coming soon)')}
+            onClick={() => onBriefConfirmed(brief)}
             style={{ padding: '8px 16px', background: '#38a169', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
           >
             Continue to Architecture →
