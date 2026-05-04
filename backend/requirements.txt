@@ -1,0 +1,14 @@
+# Web Framework ve Server
+fastapi
+uvicorn[standard]
+
+# Ortam Değişkenleri Yönetimi
+python-dotenv
+
+# LangChain ve Google Yapay Zeka Entegrasyonu
+langchain-groq
+langgraph
+
+# Opsiyonel: Veri doğrulama ve asenkron işlemler için genellikle gerekir
+pydantic
+httpx
