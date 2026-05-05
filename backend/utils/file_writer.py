@@ -2,21 +2,20 @@ import os
 import zipfile
 import json
 from pathlib import Path
-
+import re
 import os
 
 BASE_DIR = Path(os.path.expanduser("~/Desktop")) / "generated_projects"
 
-def get_project_dir(project_name: str) -> Path:
-    safe_name = project_name.lower().replace(" ", "-")
-    return BASE_DIR / safe_name
+def get_project_dir(project_slug: str) -> Path:
+    safe_slug = sanitize_slug(project_slug)
+    return BASE_DIR / safe_slug
 
-
-def write_files(project_name: str, files: list[dict]) -> dict:
+def write_files(project_slug: str, files: list[dict]) -> dict:
     """
     files: [{"path": "backend/models/user.py", "content": "..."}]
     """
-    project_dir = get_project_dir(project_name)
+    project_dir = get_project_dir(project_slug)
     written = []
     errors = []
 
@@ -72,3 +71,10 @@ def delete_project(project_name: str):
     project_dir = get_project_dir(project_name)
     if project_dir.exists():
         shutil.rmtree(project_dir)
+
+def sanitize_slug(name: str) -> str:
+    name = name.lower()
+    name = re.sub(r'[^a-z0-9\-]', '-', name)
+    name = re.sub(r'-+', '-', name)
+    name = name.strip('-')
+    return name

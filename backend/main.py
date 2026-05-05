@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from agents.planner import chat_with_planner
-from agents.architect import generate_architecture
+from agents.architect import generate_architecture, save_architecture
 import traceback
 
 app = FastAPI()
@@ -38,6 +38,13 @@ class ArchitectRequest(BaseModel):
 async def architect_generate(req: ArchitectRequest):
     try:
         result = generate_architecture(req.brief)
+        if "error" in result:
+            return JSONResponse(status_code=500, content=result)
+        
+        # Save architecture.json to project folder
+        project_name = result["architecture"].get("project_name", "my-project")
+        save_architecture(project_name, result["architecture"])
+        
         return result
     except Exception as e:
         print("ERROR:", traceback.format_exc())

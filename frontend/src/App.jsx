@@ -8,11 +8,17 @@ function App() {
   const [brief, setBrief] = useState('')
   const [architecture, setArchitecture] = useState(null)
   const [contract, setContract] = useState(null)
+  const [projectSlug, setProjectSlug] = useState('')
+  const handleBriefConfirmed = (confirmedBrief, slug) => {
+    setBrief(confirmedBrief)
+    setProjectSlug(slug)
+    setPhase('architect')
+}
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {phase === 'planner' && (
-        <Chat onBriefConfirmed={(b) => { setBrief(b); setPhase('architect') }} />
+        <Chat onBriefConfirmed={handleBriefConfirmed} />
       )}
       {phase === 'architect' && (
         <ArchitectReview brief={brief} onApprove={(a) => { setArchitecture(a); setPhase('api-contract') }} />

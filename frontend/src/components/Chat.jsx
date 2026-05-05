@@ -12,6 +12,8 @@ export default function Chat({ onBriefConfirmed }) {
   const [confirmed, setConfirmed] = useState(false)
   const [brief, setBrief] = useState('')
   const bottomRef = useRef(null)
+  const [projectSlug, setProjectSlug] = useState('')
+
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -99,7 +101,7 @@ export default function Chat({ onBriefConfirmed }) {
           <p style={{ margin: '0 0 12px', fontWeight: 'bold', color: '#276749' }}>✅ Project Brief Confirmed!</p>
           <pre style={{ margin: '0 0 12px', fontSize: '13px', whiteSpace: 'pre-wrap', color: '#2d3748' }}>{brief}</pre>
           <button
-            onClick={() => onBriefConfirmed(brief)}
+            onClick={() => onBriefConfirmed(brief, projectSlug)}
             style={{ padding: '8px 16px', background: '#38a169', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
           >
             Continue to Architecture →
