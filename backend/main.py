@@ -61,3 +61,21 @@ async def api_contract_generate(req: ApiContractRequest):
     except Exception as e:
         print("ERROR:", traceback.format_exc())
         return JSONResponse(status_code=500, content={"error": str(e)})
+    
+
+from fastapi.responses import FileResponse
+from utils.file_writer import zip_project, list_files
+
+@app.get("/project/{project_name}/files")
+def get_project_files(project_name: str):
+    files = list_files(project_name)
+    return {"files": files}
+
+@app.get("/project/{project_name}/download")
+def download_project(project_name: str):
+    zip_path = zip_project(project_name)
+    return FileResponse(
+        path=zip_path,
+        media_type="application/zip",
+        filename=f"{project_name}.zip"
+    )
